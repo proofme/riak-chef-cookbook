@@ -27,6 +27,10 @@ install_method = node['platform'] == 'freebsd' || oss_or_ee == 'riak-ee' ? 'cust
 ee_url_prefix = "http://private.downloads.basho.com/riak_ee/#{node['riak']['package']['enterprise_key']}/#{major_minor}/#{version_str}"
 plat_ver_int = node['platform_version'].to_i
 
+
+Chef::Log.info("package_version")
+Chef::Log.info( package_version )
+
 case  install_method
 when 'package', 'custom_repository'
   case node['platform']
@@ -101,6 +105,9 @@ when 'custom_package', 'enterprise_package'
     checksum_val = node['riak']['package']['enterprise']['checksum'][node['platform']][plat_ver_int.to_s]
     pkg_url = ee_url_prefix + ee_url_suffix
   end
+
+
+  Chef::Log.info( pkg_url )
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{package_file}" do
     source pkg_url
