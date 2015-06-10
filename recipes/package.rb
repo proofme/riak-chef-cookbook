@@ -28,7 +28,6 @@ ee_url_prefix = "http://private.downloads.basho.com/riak_ee/#{node['riak']['pack
 plat_ver_int = node['platform_version'].to_i
 
 
-Chef::Log.info("package_version")
 Chef::Log.info( package_version )
 
 case  install_method
@@ -56,6 +55,9 @@ when 'package', 'custom_repository'
     end
   end
 
+
+  Chef::Log.info(package_version)
+  Chef::Log.info(node['platform'])
   package 'riak' do
     action :install
     version package_version
