@@ -46,7 +46,7 @@ when 'package', 'custom_repository'
     end
 
     case plat_ver_int
-    when 6, 2013, 2014
+    when 6, 2013, 2014, 2015
       package_version = "#{package_version}.el6"
     when 7
       package_version = "#{package_version}.el7.centos"
@@ -58,6 +58,7 @@ when 'package', 'custom_repository'
 
   Chef::Log.info(package_version)
   Chef::Log.info(node['platform'])
+  Chef::Log.info(plat_ver_int )
   package 'riak' do
     action :install
     version package_version
@@ -82,6 +83,7 @@ when 'custom_package', 'enterprise_package'
     ee_url_suffix = "/rhel/#{plat_ver_int}/#{package_file}"
   when 'amazon'
     package_file = "#{oss_or_ee}-#{package_version}.el6.x86_64.rpm"
+    Chef::Log.info(package_file )
     ee_url_suffix = "/rhel/6/#{package_file}"
   when 'fedora'
     package_file = "#{oss_or_ee}-#{package_version}.fc#{plat_ver_int}.x86_64.rpm"
