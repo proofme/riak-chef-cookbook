@@ -120,6 +120,7 @@ when 'custom_package', 'enterprise_package'
     mode 0644
   end
   if node['platform'] == 'freebsd' && plat_ver_int == 9
+    Chef::Log.info( 'freebsd' )
     pkg_add 'riak' do
       location pkg_url
       action :install
@@ -128,14 +129,8 @@ when 'custom_package', 'enterprise_package'
     package oss_or_ee do
       source "#{Chef::Config[:file_cache_path]}/#{package_file}"
       action :install
-      provider value_for_platform_family(
-         %w(debian) => Chef::Provider::Package::Dpkg,
-         %w(rhel fedora) => Chef::Provider::Package::Rpm)
-      only_if do
-        ::File.exist?("#{Chef::Config[:file_cache_path]}/#{package_file}") &&
-          Digest::SHA256.file("#{Chef::Config[:file_cache_path]}/#{package_file}").hexdigest ==
-            checksum_val
-      end
+      Chef::Log.info( node['platform_family'] )
+      provider Chef::Provider::Package::Rpm
     end
   end
 end
